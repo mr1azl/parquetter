@@ -35,6 +35,7 @@ object Analytics extends App{
   sqx.setConf("spark.sql.inMemoryColumnarStorage.batchSize","50000");
   sqx.setConf("spark.sql.parquet.compression.codec","snappy")
   sqx.setConf("spark.sql.parquet.filterPushdown","true")
+  sqx.setConf("spark.sql.codegen","true")
 
   val parquetData_1M= "/media/samklr/windows/code/latticeiq/log_adm.1M.snappy.parquet/*"
   val parquetData_2M="/media/samklr/windows/code/latticeiq/log_adm_2M.snappy.parquet/*"
