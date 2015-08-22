@@ -4,7 +4,8 @@ import org.apache.spark.storage.StorageLevel
 import org.apache.spark.{SparkConf, SparkContext}
 import sparky.MyKryoRegistrator
 import sparky.com.samklr.adm.Logs.FlatLog
-
+import sparky.com.samklr.adm.Logs.RawLog
+import _root_.com.esotericsoftware.kryo.Kryo
 
 /**
  * Created by samklr on 20/08/15.
@@ -12,7 +13,7 @@ import sparky.com.samklr.adm.Logs.FlatLog
 object Transformer extends App{
 
   val conf = new SparkConf()
-    .setAppName("Spark Template")
+    .setAppName("Parquetter")
     .setMaster("local[*]")
     .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .set("spark.kryo.registrator", classOf[MyKryoRegistrator].getName)
@@ -22,14 +23,17 @@ object Transformer extends App{
 
   val sqlContext = new org.apache.spark.sql.SQLContext(sparkContext)
   sqlContext.setConf("spark.sql.shuffle.partitions", "100");
-  sqlContext.setConf("spark.sql.inMemoryColumnarStorage.batchSize","50000");
+  sqlContext.setConf("spark.sql.inMemoryColumnarStorage.batchSize","100000");
   sqlContext.setConf("spark.sql.parquet.compression.codec","snappy")
+  sqlContext.setConf("spark.sql.parquet.filterPushdown","true")
+
 
   println(sparkContext.getConf.toDebugString)
 
 
-  val flat_logs = sparkContext.textFile("/media/samklr/windows/log_20150720.json")
-                              .mapPartitions(line => Logs.parseFromJson(line))
+ val flat_logs = sparkContext.textFile("/media/samklr/windows/code/latticeiq/log_adm_1M.json",32)
+ //val flat_logs = sparkContext.textFile("/home/samklr/data/*")
+     .mapPartitions(line => Logs.parseFromJson(line))
                               .map(r => if ((r != null) && (r.coordinates != null))
                                           FlatLog( r.coordinates(1), r.coordinates(0), r.impflag, r.log_date,
                                                 r.log_day, r.log_hour, r.log_tkn, r.pubuid, r.userid)
@@ -38,15 +42,20 @@ object Transformer extends App{
                               .persist(StorageLevel. MEMORY_ONLY_SER)
 
   val flatDF=sqlContext.createDataFrame[FlatLog](flat_logs).na.drop
-  
+
   flatDF.printSchema()
 
   flatDF.show(10)
 
-  val sz= flatDF.count
+//  val sz= flatDF.count
 
-  println("DataFrame size " + sz)
+//  println("DataFrame size " + sz)
 
-  flatDF.write.parquet("/media/samklr/windows/code/latticeiq/log_20150720.parquet")
+  flatDF.write
+        .format("parquet")
+        .partitionBy("log_day")
+        .save("/media/samklr/windows/code/latticeiq/log_adm.1M.snappy.parquet")
+
+  //flatDF.write.parquet("/home/samklr/data.parq.lz")
 
 }

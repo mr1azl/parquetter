@@ -1,20 +1,15 @@
-spark SBT Template.
+Impressions logs playground
 
-To use it, import it into INtelliJ as an SBT Project.
+-Spark + dataframe + parquet
 
-Then you should be able to run standard SBT tests/compile tasks etc 
-inside your idea and also in standalone mode.
-
- git clone https://github.com/Ludwsam/SparkTemplate/
-
- remove folders that dont apply to your project.
-
- Now open intellij, and import.
-
- Pick "SBT" project as the template
-
- Run the Tester class via intelliJ
-
- Change the .git/config to  point to your repository.
+TODO :
+ 1-Protobuf || Avro
+ 2-ML,
+ 3-Finagle,
+ 4-Redis via  finagle-redis
+ 5-Bench LZ4/LZ0/Snappy
+ 6-Tachyon
+ 7-Bench w/ Drill/Druid
 
 
+ @samklr
