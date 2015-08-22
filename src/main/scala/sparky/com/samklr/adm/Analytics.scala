@@ -17,22 +17,22 @@ object Analytics extends App{
 
   Logger.getLogger("org").setLevel(Level.WARN)
   Logger.getLogger("akka").setLevel(Level.WARN)
-  Logger.getLogger("parquet").setLevel(Level.WARN)
+//  Logger.getLogger("parquet.hadoop").setLevel(Level.WARN)
 
 
   val conf = new SparkConf()
     .setAppName("Spark Template")
-    .setMaster("local[*]")
+    .setMaster("spark://spark:7077")
     .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .set("spark.kryo.registrator", classOf[MyKryoRegistrator].getName)
-    .set("spark.executor.memory","2G")
+    .set("spark.executor.memory","16G")
 
 
   val sparkContext = new SparkContext(conf)
 
   val sqx = new org.apache.spark.sql.SQLContext(sparkContext)
-  sqx.setConf("spark.sql.shuffle.partitions", "40");
-  sqx.setConf("spark.sql.inMemoryColumnarStorage.batchSize","50000");
+  sqx.setConf("spark.sql.shuffle.partitions", "100");
+  sqx.setConf("spark.sql.inMemoryColumnarStorage.batchSize","100000");
   sqx.setConf("spark.sql.parquet.compression.codec","snappy")
   sqx.setConf("spark.sql.parquet.filterPushdown","true")
   sqx.setConf("spark.sql.codegen","true")
@@ -40,16 +40,19 @@ object Analytics extends App{
   val parquetData_1M= "/media/samklr/windows/code/latticeiq/log_adm.1M.snappy.parquet/*"
   val parquetData_2M="/media/samklr/windows/code/latticeiq/log_adm_2M.snappy.parquet/*"
   val parquetData_1D="/media/samklr/windows/code/latticeiq/log_adm.full.log_20150720.snappy.parquet/*"
+  val parquetData_4D="/home/samklr/data.adm.parquet/*"
 
-  val logsDF = sqx.read.parquet(parquetData_1D).cache
+  val logsDF = sqx.read.parquet(parquetData_4D).cache
 
-  println("Logs size : " + logsDF.count)
+  val cnt = logsDF.count
+
+  println("Logs size : " + cnt)
 
   logsDF.registerTempTable("log_days")
 
-  //logsDF.printSchema()
+  logsDF.printSchema()
 
-  //logsDF.show(20)
+  logsDF.show(50)
 
   //println("Size of parquet DF " + logsDF.count())
   //println("Executing Query 1")
@@ -138,8 +141,6 @@ object Analytics extends App{
     SpatialRelation.WITHIN == point.relate(ctx.makeCircle(center, radius * KM_TO_DEG))
   }
 
-
-  //udf
 
   val withinUDF = udf(within _)
 
