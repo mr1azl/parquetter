@@ -8,8 +8,6 @@ import com.spatial4j.core.distance.DistanceUtils.KM_TO_DEG
 
 object SpatialFilter extends App {
 
-
-
     def within(latitude : Double, longitude : Double, centerLat : Double, centerLong : Double, radius : Double) : Boolean = {
       val ctx = SpatialContext.GEO
       val point = new PointImpl(latitude, longitude, ctx)
@@ -23,7 +21,6 @@ object SpatialFilter extends App {
       // val sphere
 
     }
-
 
 
   /**

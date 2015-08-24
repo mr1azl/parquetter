@@ -7,13 +7,10 @@ package sparky
 
 import _root_.com.esotericsoftware.kryo.Kryo
 import org.apache.spark.SparkConf
-import sparky.com.samklr.adm.Logs.{FlatLog, RawLog}
 
 class MyKryoRegistrator extends KryoSerializer {
   override def registerClasses(kryo: Kryo) {
-    kryo.register(classOf[RawLog])
-    kryo.register(classOf[FlatLog])
-
+    //kryo.register(classOf[RawLog])
   }
 }
 

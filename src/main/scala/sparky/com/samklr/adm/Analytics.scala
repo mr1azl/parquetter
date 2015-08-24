@@ -110,76 +110,19 @@ object Analytics extends App{
   println("q2 sql : " + q1.collectAsList())
   val t2_stop = System.nanoTime()
 
-/**
+
   dataF.show
   dataF2.show
   dataF3.show
   dataF4.show
   dataF5.show
-
-**/
   q1.show
 
   val elapsed1 = TimeUnit.NANOSECONDS.toSeconds(t1_stop  - t1_start)
   val elapsed2 = TimeUnit.NANOSECONDS.toSeconds(t2_stop  - t2_start)
 
 
-  println("dataF4 in : " + (t1_stop-t1_start)/1000000000.0 +" secs")
   println("dataF4 in : " + elapsed1 +" secs")
-  println("sql q1 done in : " + (t2_stop-t2_start)/1000000000.0 +" secs")
   println("sql q1 done in : " + elapsed2 +" secs")
-
-
-  //"SELECT log_day, count(distinct userid) users, COUNT(*) , sum(impflags) GROUPBY log_day
-
-  //val query2 = logsDF.
-
-
-  //println("Filtered size " +dataF.count)
- // val t2_end = System.currentTimeMillis()
-
- // q1.show()
-
-   // println("Query 1 done in : " + (t1_end-t1_start)/1000.0 +" secs")
-
-
-
-  //  println("Query 2 done in : " + (t2_end-t2_start)/1000.0 +" secs")
-
-   //                                                                                                                       dataF.foreach(println)
-
-
-  /**
-
-  def within(latitude : Double, longitude : Double, centerLat : Double, centerLong : Double, radius : Double) : Boolean = {
-    val ctx = SpatialContext.GEO
-    val point = new PointImpl(latitude, longitude, ctx)
-    val center = new PointImpl(centerLat, centerLong, ctx)
-
-    SpatialRelation.WITHIN == point.relate(ctx.makeCircle(center, radius * KM_TO_DEG))
-  }
-
-
-  val withinUDF = udf(within _)
-
-
-  //df.where(withinUDF($"lat", $"long", lit(RADIUS)))
-  //def within(radius: Double) = udf((lat: Double, long: Double) => ???)
-  //df.where(within(RADIOUS)($"lat", $"long"))
-
-
-
-  val geoDF = flatDF.where(withinUDF($"lat", $"lon",  lit(48.8436), lit(2.3238), lit(10.0)))
-
-  geoDF.registerTempTable("log_days")
-
-  geoDF.count
-
-  val quer1 = sqlContext.sql("SELECT log_day, COUNT(*) impressions FROM log_days GROUP BY log_day")
-
-  val query2 = sqlContext.sql("SELECT log_day, count(distinct userid) users, COUNT(*) impressions,sum(impflag) impflags FROM log_days GROUP BY log_day")
-  **/
-
-
 
 }

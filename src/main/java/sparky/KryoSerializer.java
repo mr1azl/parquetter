@@ -45,7 +45,7 @@ public class KryoSerializer implements KryoRegistrator, Serializable {
     public void registerClasses(@Nonnull Kryo kryo) {
         kryo.register(Object[].class);
         kryo.register(scala.Tuple2[].class);
-        kryo.register(Model.class);
+        //kryo.register(Model.class);
 
         //example of registrations
         doRegistration(kryo, "scala.collection.mutable.WrappedArray$ofRef");
