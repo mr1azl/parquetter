@@ -9,13 +9,13 @@ version := "0.1.0-SNAPSHOT"
 
 scalaVersion := "2.10.5"
 
-libraryDependencies += "org.apache.spark" % "spark-core_2.10" % "1.4.1" % "provided"
+libraryDependencies += "org.apache.spark" % "spark-core_2.10" % "1.4.1" //% "provided"
 
-libraryDependencies += "org.apache.spark" % "spark-sql_2.10"  % "1.4.1" % "provided"
+libraryDependencies += "org.apache.spark" % "spark-sql_2.10"  % "1.4.1" //% "provided"
 
-libraryDependencies += "org.apache.spark" % "spark-hive_2.10" % "1.4.1" % "provided"
+libraryDependencies += "org.apache.spark" % "spark-hive_2.10" % "1.4.1" //% "provided"
 
-libraryDependencies += "org.apache.spark" % "spark-catalyst_2.10" % "1.4.1" % "provided"
+libraryDependencies += "org.apache.spark" % "spark-catalyst_2.10" % "1.4.1" //% "provided"
 
 libraryDependencies += "com.twitter.elephantbird" % "elephant-bird" % "4.5"
 
