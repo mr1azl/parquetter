@@ -11,6 +11,7 @@ import org.apache.spark.SparkConf
 class MyKryoRegistrator extends KryoSerializer {
   override def registerClasses(kryo: Kryo) {
     //kryo.register(classOf[RawLog])
+    kryo.register(clasOf[SpatialFilter])
   }
 }
 
